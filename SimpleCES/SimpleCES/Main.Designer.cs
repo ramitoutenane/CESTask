@@ -68,6 +68,7 @@ namespace SimpleCES
             this.MaximizeBox = false;
             this.Name = "Main";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CES";
             this.Load += new System.EventHandler(this.Main_Load);
             this.ResumeLayout(false);

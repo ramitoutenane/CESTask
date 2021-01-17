@@ -12,9 +12,10 @@ namespace SimpleCES
 {
     public partial class Login : Form
     {
+        internal bool mSuccessfulLogin;
         public Login()
         {
             InitializeComponent();
-        }
+    }
     }
 }

@@ -79,6 +79,7 @@ namespace SimpleCES
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(214, 26);
             this.textBoxPassword.TabIndex = 2;
+            this.textBoxPassword.UseSystemPasswordChar = true;
             // 
             // buttonClose
             // 
