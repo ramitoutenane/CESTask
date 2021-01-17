@@ -1,17 +1,14 @@
-﻿using INFEventLogger;
-using INFQSCommunication;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using INFEventLogger;
+using INFQSCommunication;
 
 namespace QSClient
 {
     public class CommunicationProxy
     {
+        #region Delegates and Events
         public delegate void MessageReceivedDelegate(INFQueuingCOMEntities.clsQueuingInfo pMessage, int pResult);
         public event MessageReceivedDelegate MessageReceivedEvent;
 
@@ -20,10 +17,13 @@ namespace QSClient
 
         public delegate void QSDisconnectedDelegate();
         public event QSDisconnectedDelegate QSDisconnectedEvent;
-
+        #endregion
+        #region Declarations
         private string mServerIpAddress;
         private string mClientName;
         private clsQSClientObject mCommunicationManager;
+        #endregion
+        #region Public Functions
         public CommunicationProxy(string pServerIpAddress, string pClientName)
         {
             try
@@ -86,6 +86,28 @@ namespace QSClient
                 mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
             }
         }
+        public int SendMessageToQS(ref INFQueuingCOMEntities.clsQueuingInfo pMessage, ref INFQueuingCOMEntities.clsQueuingInfo[] pResponses)
+
+        {
+            try
+            {
+                if (mCommunicationManager == null)
+                {
+                    mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, ConstantResources.cERROR_NULL_QS_CLIENT, new StackTrace(true).ToString());
+                    return mdlGeneral.cERROR;
+                }
+
+                return mCommunicationManager.Send(ref pMessage, ref pResponses);
+            }
+            catch (Exception pError)
+            {
+                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                return mdlGeneral.cERROR;
+            }
+
+        }
+        #endregion
+        #region Private Functions
         private void HandleQSMessageReceivedEvent(ref INFQueuingCOMEntities.clsQueuingInfo pMessage, ref int pResult)
         {
             try
@@ -128,26 +150,6 @@ namespace QSClient
                 mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
             }
         }
-        public int SendMessageToQS(ref INFQueuingCOMEntities.clsQueuingInfo pMessage, ref INFQueuingCOMEntities.clsQueuingInfo[] pResponses)
-
-        {
-            try
-            {
-                if (mCommunicationManager == null)
-                {
-                    mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, ConstantResources.cERROR_NULL_QS_CLIENT, new StackTrace(true).ToString());
-                    return mdlGeneral.cERROR;
-                }
-
-                return mCommunicationManager.Send(ref pMessage, ref pResponses);
-            }
-            catch (Exception pError)
-            {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                return mdlGeneral.cERROR;
-            }
-
-        }
-
+        #endregion
     }
 }

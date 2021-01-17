@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QSClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,12 +14,14 @@ namespace SimpleCES
     public partial class Main : Form
     {
         private bool mLogedin;
+        private CounterClient mCounterClient;
         public Main()
         {
             try
             {
                 InitializeComponent();
                 mLogedin = false;
+                mCounterClient = new CounterClient("localhost");
             }
             catch (Exception)
             {
@@ -35,7 +38,7 @@ namespace SimpleCES
                 labelStatus.Text = ConstantResources.cEMPLOYEE_STATUS_NOT_READY;
                 labelStatus.Width = Width;
                 if (!mLogedin)
-                    using (Login tLogin = new Login())
+                    using (Login tLogin = new Login(mCounterClient))
                     {
                         tLogin.ShowDialog(this);
                         if (tLogin.DialogResult == DialogResult.OK && tLogin.mSuccessfulLogin == true)

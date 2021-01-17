@@ -40,6 +40,9 @@
     <Reference Include="INFQueuingCOMEntities">
       <HintPath>dlls\INFQueuingCOMEntities.dll</HintPath>
     </Reference>
+    <Reference Include="SecurityModule">
+      <HintPath>dlls\SecurityModule.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,8 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommunicationManager.cs" />
+    <Compile Include="CommunicationProxy.cs" />
     <Compile Include="ConstantResources.cs" />
+    <Compile Include="CounterClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
