@@ -19,7 +19,8 @@ namespace SimpleCES
 
         private void Main_Load(object sender, EventArgs e)
         {
-
+            labelStatus.Text = ConstantResources.cEMPLOYEE_STATUS_NOT_READY;
+            labelStatus.Width = Width;
         }
     }
 }
