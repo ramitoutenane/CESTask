@@ -65,7 +65,6 @@ namespace SimpleCES
             // 
             // buttonLogin
             // 
-            this.buttonLogin.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonLogin.Location = new System.Drawing.Point(102, 125);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(97, 27);

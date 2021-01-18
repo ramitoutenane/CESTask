@@ -43,13 +43,14 @@ namespace SimpleCES
             this.buttonNext.TabIndex = 0;
             this.buttonNext.Text = "Next";
             this.buttonNext.UseVisualStyleBackColor = true;
+            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
             // 
             // labelStatus
             // 
             this.labelStatus.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.labelStatus.Location = new System.Drawing.Point(0, 48);
+            this.labelStatus.Location = new System.Drawing.Point(0, 39);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(46, 19);
+            this.labelStatus.Size = new System.Drawing.Size(327, 203);
             this.labelStatus.TabIndex = 1;
             this.labelStatus.Text = "Status";
             this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -58,7 +59,7 @@ namespace SimpleCES
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 76);
+            this.ClientSize = new System.Drawing.Size(327, 242);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.buttonNext);
             this.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
