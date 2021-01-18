@@ -112,7 +112,6 @@ namespace SimpleCES
             this.MinimizeBox = false;
             this.Name = "Login";
             this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Employee Login";

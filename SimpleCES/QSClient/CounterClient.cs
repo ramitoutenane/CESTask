@@ -27,6 +27,7 @@ namespace QSClient
         private CommunicationProxy mCommunicationManager;
         private bool mConnectionStatus;
         private string mCounterId;
+        private clsWindowMonitor mWindowMonitor;
         #endregion
         #region Properties
         public bool IsConnected
@@ -41,6 +42,13 @@ namespace QSClient
             get
             {
                 return mCounterId;
+            }
+        }
+        public clsWindowMonitor WindowMonitor
+        {
+            get
+            {
+                return mWindowMonitor;
             }
         }
         #endregion
@@ -117,11 +125,11 @@ namespace QSClient
             }
 
         }
-        private void MessageReceivedHandler(INFQueuingCOMEntities.clsQueuingInfo pMessage, int pResult)
+        private void MessageReceivedHandler(clsQueuingInfo pMessage, int pResult)
         {
             try
             {
-                
+
                 switch (pMessage.Command)
                 {
                     case INFQueuingCOMEntities.mdlGeneral.QueuingCommand.MONITOR_CHANGED:
@@ -129,7 +137,7 @@ namespace QSClient
                         UpdateCounterInfo(tPacketMonitor);
                         break;
                 }
-                
+
             }
             catch (Exception pError)
             {
@@ -213,7 +221,7 @@ namespace QSClient
             }
 
         }
-        private void UpdateCounterInfo(INFQueuingCOMEntities.clsPacketMonitor pPacketMonitor)
+        private void UpdateCounterInfo(clsPacketMonitor pPacketMonitor)
         {
             try
             {
@@ -226,6 +234,7 @@ namespace QSClient
                         {
                             if (tWindow.ID == CounterId)
                             {
+                                mWindowMonitor = tWindow;
                                 if (UpdateWindowInfoEvent != null)
                                     UpdateWindowInfoEvent(tWindow);
                                 break;
@@ -240,6 +249,5 @@ namespace QSClient
             }
         }
         #endregion
-
     }
 }
