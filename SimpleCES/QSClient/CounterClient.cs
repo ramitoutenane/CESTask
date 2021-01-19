@@ -4,7 +4,7 @@ using INFQueuingCOMEntities;
 using System;
 using System.Diagnostics;
 using System.Reflection;
-
+using System.Linq;
 
 namespace QSClient
 {
@@ -296,27 +296,24 @@ namespace QSClient
             }
 
         }
+        /// <summary>
+        /// Update current counter info
+        /// </summary>
+        /// <param name="pPacketMonitor">Packet monitor object containing info</param>
         private void UpdateCounterInfo(clsPacketMonitor pPacketMonitor)
         {
             try
             {
-                if (pPacketMonitor != null)
+                //get current counter window monitor from given packet monitor
+                clsWindowMonitor tWindow = pPacketMonitor?.WindowsMonitor?.FirstOrDefault(Window => Window.ID == CounterId);
+                //update counter window monitor and invoke updated window event
+                if (tWindow != null)
                 {
-                    clsWindowMonitor[] tWindowMonitors = pPacketMonitor.WindowsMonitor;
-                    if (tWindowMonitors != null && tWindowMonitors.Length > 0)
-                    {
-                        foreach (clsWindowMonitor tWindow in tWindowMonitors)
-                        {
-                            if (tWindow.ID == CounterId)
-                            {
-                                mWindowMonitor = tWindow;
-                                if (UpdateWindowInfoEvent != null)
-                                    UpdateWindowInfoEvent(tWindow);
-                                break;
-                            }
-                        }
-                    }
+                    mWindowMonitor = tWindow;
+                    if (UpdateWindowInfoEvent != null)
+                        UpdateWindowInfoEvent(mWindowMonitor);
                 }
+
             }
             catch (Exception pError)
             {
