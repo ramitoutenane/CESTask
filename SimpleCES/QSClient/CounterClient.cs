@@ -96,7 +96,7 @@ namespace QSClient
                     //currently we only have one type of login
                     string pDomainName = Environment.UserDomainName;
                     string tHashedPassword = SecurityModule.clsTripleDESCrypto.Encrypt(pPassword);
-                    string tLanguageID = "1";
+                    string tLanguageID = mdlGeneral.cCOUNTER_DEFAULT_LANGUAGE_ID;
 
                     //login as normal employee
                     return QSEmployeeNormalLogin(pLoginName, tHashedPassword, pDomainName, tLanguageID);
@@ -122,7 +122,7 @@ namespace QSClient
         {
             try
             {
-                string tIgnorePath = "0";
+                string tIgnorePath = mdlGeneral.cCOUNTER_DEFAULT_IGNORE_PATH_VALUE;
                 return QSCounterNext(tIgnorePath);
             }
             catch (Exception pError)
@@ -260,7 +260,7 @@ namespace QSClient
             catch (Exception pError)
             {
                 INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                return INFQSCommunication.mdlGeneral.cERROR;
+                return mdlGeneral.cERROR;
             }
         }
         /// <summary>

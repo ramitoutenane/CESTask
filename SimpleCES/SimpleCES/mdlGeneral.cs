@@ -25,5 +25,7 @@ namespace SimpleCES
         public const string cERROR_MESSAGE_LOGIN_FAILED = "Login failed, please check your credentials and try again";
         public const string cBRANCH_IP = "BranchIP";
         public const string cCOUNTER_ID = "CounterId";
+        public const int cERROR = -1;
+        public const int cSUCCESS = 0;
     }
 }

@@ -10,5 +10,9 @@
         public const string cERROR_QS_CLIENT_DISCONNECTED = "Queuing service is disconnected ";
         public const string cERROR_QS_CONNECTION_FAILED = "Failed to Connect to QS - Connection Status : ";
         public const string cCLIENT_NAME_COUNTER_CLIENT = "Counter Client";
+        public const string cCOUNTER_DEFAULT_LANGUAGE_ID = "1";
+        public const string cCOUNTER_DEFAULT_IGNORE_PATH_VALUE = "0";
+        public const int cERROR = -1;
+        public const int cSUCCESS = 0;
     }
 }

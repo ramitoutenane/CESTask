@@ -1,15 +1,7 @@
 ﻿using INFEventLogger;
-using INFQueuingCOMEntities;
 using QSClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SimpleCES
@@ -65,7 +57,7 @@ namespace SimpleCES
                 }
 
                 //try to perform login
-                if (mCounterClient.Login(pLoginName, pPassword) == 0)
+                if (mCounterClient.Login(pLoginName, pPassword) == mdlGeneral.cSUCCESS)
                 {
                     //if successful result returned change login status and submit dialog
                     mSuccessfulLogin = true;

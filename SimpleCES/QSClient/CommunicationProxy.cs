@@ -142,7 +142,7 @@ namespace QSClient
                 {
                     MessageReceivedEvent(pMessage);
                 }
-                pResult = INFQSCommunication.mdlGeneral.cSUCCESS;
+                pResult = mdlGeneral.cSUCCESS;
             }
             catch (Exception pError)
             {
