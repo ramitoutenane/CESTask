@@ -1,6 +1,7 @@
 ﻿using INFEventLogger;
 using QSClient;
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -57,7 +58,8 @@ namespace SimpleCES
                 }
 
                 //try to perform login
-                if (mCounterClient.Login(pLoginName, pPassword) == mdlGeneral.cSUCCESS)
+                int tLoginResult = mCounterClient.Login(pLoginName, pPassword);
+                if (tLoginResult == mdlGeneral.cSUCCESS)
                 {
                     //if successful result returned change login status and submit dialog
                     mSuccessfulLogin = true;
@@ -67,6 +69,7 @@ namespace SimpleCES
                 {
                     //if login failed, show appropriate message
                     ShowErrorMessage(mdlGeneral.cERROR_TITLE_LOGIN_FAILED, mdlGeneral.cERROR_MESSAGE_LOGIN_FAILED);
+                    INFQueuingCOMEntities.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, mdlGeneral.cERROR_LOG_LOGIN_FAILED + tLoginResult, new StackTrace(true).ToString());
                 }
 
             }

@@ -23,6 +23,7 @@ namespace SimpleCES
         public const string cERROR_MESSAGE_REQUIRED_PASSWORD = "You must enter a valid password";
         public const string cERROR_TITLE_LOGIN_FAILED = "Login failed";
         public const string cERROR_MESSAGE_LOGIN_FAILED = "Login failed, please check your credentials and try again";
+        public const string cERROR_LOG_LOGIN_FAILED = "Login Failed - Status Code: ";
         public const string cBRANCH_IP = "BranchIP";
         public const string cCOUNTER_ID = "CounterId";
         public const int cERROR = -1;

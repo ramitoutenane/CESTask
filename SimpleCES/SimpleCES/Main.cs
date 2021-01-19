@@ -49,7 +49,7 @@ namespace SimpleCES
                     {
                         tLogin.ShowDialog(this);
                         //if logged in successfully allow to use system, exit otherwise
-                        if (tLogin.DialogResult == DialogResult.OK && tLogin.mSuccessfulLogin == true)
+                        if (tLogin.DialogResult == DialogResult.OK && tLogin.mSuccessfulLogin)
                             mLoggedIn = true;
                         else
                             Application.Exit();

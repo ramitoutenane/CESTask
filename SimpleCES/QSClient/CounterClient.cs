@@ -276,8 +276,8 @@ namespace QSClient
                 string tWindowData = $"{CounterId}|{pIgnorePath}";
 
                 //initialize message and response objects 
-                INFQueuingCOMEntities.clsQueuingInfo tMessage = new INFQueuingCOMEntities.clsQueuingInfo();
-                INFQueuingCOMEntities.clsQueuingInfo[] tResponses = new INFQueuingCOMEntities.clsQueuingInfo[0];
+                clsQueuingInfo tMessage = new clsQueuingInfo();
+                clsQueuingInfo[] tResponses = new clsQueuingInfo[0];
 
                 //add required parameters to message
                 INFQueuingCOMEntities.mdlGeneral.QueuingCommand tCommand = INFQueuingCOMEntities.mdlGeneral.QueuingCommand.WINDOW_NEXT;
@@ -292,7 +292,7 @@ namespace QSClient
             catch (Exception pError)
             {
                 INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                return INFQSCommunication.mdlGeneral.cERROR;
+                return mdlGeneral.cERROR;
             }
 
         }
