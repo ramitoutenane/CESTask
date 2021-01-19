@@ -24,9 +24,15 @@ namespace QSClient
         #region Declarations
         private string mServerIpAddress;
         private readonly string mClientName;
+        /// <summary>
+        /// to be used to communicate with QS
+        /// </summary>
         private CommunicationProxy mCommunicationManager;
         private bool mConnectionStatus;
         private string mCounterId;
+        /// <summary>
+        /// to be used to save a copy of latest counter state
+        /// </summary>
         private clsWindowMonitor mWindowMonitor;
         #endregion
         #region Properties
@@ -53,6 +59,11 @@ namespace QSClient
         }
         #endregion
         #region Public Functions
+        /// <summary>
+        /// Counter Client Constructor 
+        /// </summary>
+        /// <param name="pServerIpAddress">QS IP address</param>
+        /// <param name="pCounterId">Current counter client id </param>
         public CounterClient(string pServerIpAddress, string pCounterId)
         {
             try
@@ -69,17 +80,26 @@ namespace QSClient
 
             }
         }
+        /// <summary>
+        /// Login to system with given credentials
+        /// </summary>
+        /// <param name="pLoginName">User login name</param>
+        /// <param name="pPassword">User password</param>
+        /// <returns>Login result code</returns>
         public int Login(string pLoginName, string pPassword)
         {
             try
             {
                 if (IsConnected)
                 {
-                    //Currently we only have one type of login
+                    //check user type and prepare required login data
+                    //currently we only have one type of login
                     string pDomainName = Environment.UserDomainName;
                     string tHashedPassword = SecurityModule.clsTripleDESCrypto.Encrypt(pPassword);
                     string tLanguageID = "1";
-                    return QSEmployeeNormalLogin(CounterId, pLoginName, tHashedPassword, pDomainName, tLanguageID);
+
+                    //login as normal employee
+                    return QSEmployeeNormalLogin(pLoginName, tHashedPassword, pDomainName, tLanguageID);
                 }
                 else
                 {
@@ -94,12 +114,16 @@ namespace QSClient
                 return INFQSCommunication.mdlGeneral.cERROR;
             }
         }
+        /// <summary>
+        /// Perform next action on QS
+        /// </summary>
+        /// <returns>Next action result code</returns>
         public int Next()
         {
             try
             {
                 string tIgnorePath = "0";
-                return QSCounterNext(mCounterId, tIgnorePath);
+                return QSCounterNext(tIgnorePath);
             }
             catch (Exception pError)
             {
@@ -109,15 +133,30 @@ namespace QSClient
         }
         #endregion
         #region Private Functions
+        /// <summary>
+        /// Initialize communication manager and connect to it
+        /// </summary>
         private void InitializeCommunicationManager()
         {
             try
             {
-                mCommunicationManager = new CommunicationProxy(mServerIpAddress, mClientName);
-                mCommunicationManager.QSConnectedEvent += ConnectedHandler;
-                mCommunicationManager.QSDisconnectedEvent += DisconnectedHandler;
-                mCommunicationManager.MessageReceivedEvent += MessageReceivedHandler;
-                mCommunicationManager.Connect();
+                //create new communication manager object and register events to it
+                if (mCommunicationManager == null)
+                {
+                    mCommunicationManager = new CommunicationProxy(mServerIpAddress, mClientName);
+                    mCommunicationManager.QSConnectedEvent += ConnectedHandler;
+                    mCommunicationManager.QSDisconnectedEvent += DisconnectedHandler;
+                    mCommunicationManager.MessageReceivedEvent += MessageReceivedHandler;
+                }
+
+                //connect to QS 
+                INFQSCommunication.mdlGeneral.eConnectionStatus tConnectionStatus = mCommunicationManager.Connect();
+
+                //if Connection to QS failed
+                if (tConnectionStatus != INFQSCommunication.mdlGeneral.eConnectionStatus.Success)
+                {
+                    INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, ConstantResources.cERROR_QS_CONNECTION_FAILED + tConnectionStatus.ToString(), new StackTrace(true).ToString()); ;
+                }
             }
             catch (Exception pError)
             {
@@ -125,13 +164,17 @@ namespace QSClient
             }
 
         }
-        private void MessageReceivedHandler(clsQueuingInfo pMessage, int pResult)
+        /// <summary>
+        /// Handle messages received from QS
+        /// </summary>
+        /// <param name="pMessage">Queuing info message received from QS</param>
+        private void MessageReceivedHandler(clsQueuingInfo pMessage)
         {
             try
             {
-
                 switch (pMessage.Command)
                 {
+                    //handle monitor changed message 
                     case INFQueuingCOMEntities.mdlGeneral.QueuingCommand.MONITOR_CHANGED:
                         clsPacketMonitor tPacketMonitor = (clsPacketMonitor)pMessage.Parameter;
                         UpdateCounterInfo(tPacketMonitor);
@@ -144,11 +187,16 @@ namespace QSClient
                 INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
             }
         }
+        /// <summary>
+        /// Handle QS connected
+        /// </summary>
         private void ConnectedHandler()
         {
             try
             {
+                //change connection status 
                 mConnectionStatus = true;
+                //invoke QS connected event
                 if (QSConnectedEvent != null)
                     QSConnectedEvent();
             }
@@ -158,11 +206,16 @@ namespace QSClient
             }
 
         }
+        /// <summary>
+        /// Handle QS disconnected
+        /// </summary>
         private void DisconnectedHandler()
         {
             try
             {
+                //change connection status 
                 mConnectionStatus = false;
+                //invoke QS disconnected event
                 if (QSDisconnectedEvent != null)
                     QSDisconnectedEvent();
             }
@@ -172,23 +225,37 @@ namespace QSClient
             }
 
         }
-        private int QSEmployeeNormalLogin(string pCounterId, string pLoginName, string pHashedPassword, string pDomain, string mLanguageId)
+        /// <summary>
+        /// Login to system as normal employee
+        /// </summary>
+        /// <param name="pLoginName">User login name</param>
+        /// <param name="pHashedPassword">User Hashed password</param>
+        /// <param name="pDomain">Login domain</param>
+        /// <param name="mLanguageId">User language</param>
+        /// <returns>Login result code</returns>
+        private int QSEmployeeNormalLogin(string pLoginName, string pHashedPassword, string pDomain, string mLanguageId)
         {
             try
             {
+                //construct login data string
                 string tLoginData = $"{pLoginName}|{pHashedPassword}||{pDomain}|false|{(int)INFQueuingCOMEntities.mdlGeneral.LoginTypes.Normal}";
+
+                //set user authentication level as normal employee
                 INFQueuingCOMEntities.mdlGeneral.AuthenicationLevels tUserLevel = INFQueuingCOMEntities.mdlGeneral.AuthenicationLevels.Employee;
 
+                //initialize message and response objects 
+                clsQueuingInfo tMessage = new clsQueuingInfo();
+                clsQueuingInfo[] tResponses = new clsQueuingInfo[0];
 
-                INFQueuingCOMEntities.clsQueuingInfo tMessage = new INFQueuingCOMEntities.clsQueuingInfo();
-                INFQueuingCOMEntities.clsQueuingInfo[] tResponses = new INFQueuingCOMEntities.clsQueuingInfo[0];
-
+                //add required parameters to message
                 INFQueuingCOMEntities.mdlGeneral.QueuingCommand tCommand = INFQueuingCOMEntities.mdlGeneral.QueuingCommand.EMPLOYEE_LOGIN;
-                object[] tParameter = new object[] { pCounterId, tLoginData, "", tUserLevel, mLanguageId };
+                object[] tParameter = new object[] { CounterId, tLoginData, "", tUserLevel, mLanguageId };
                 tMessage.Command = tCommand;
                 tMessage.Parameter = tParameter;
 
-                return mCommunicationManager.SendMessageToQS(ref tMessage, ref tResponses);
+                //send login message to QS and return result
+                int tResult = mCommunicationManager.SendMessageToQS(ref tMessage, ref tResponses);
+                return tResult;
             }
             catch (Exception pError)
             {
@@ -196,21 +263,29 @@ namespace QSClient
                 return INFQSCommunication.mdlGeneral.cERROR;
             }
         }
-        private int QSCounterNext(string pCounterId, string pIgnorePath)
+        /// <summary>
+        /// Perform counter next action on QS
+        /// </summary>
+        /// <param name="pIgnorePath">Ignore path flag</param>
+        /// <returns>Next action result</returns>
+        private int QSCounterNext(string pIgnorePath)
         {
             try
             {
-                string tWindowData = $"{pCounterId}|{pIgnorePath}";
+                //construct window data string
+                string tWindowData = $"{CounterId}|{pIgnorePath}";
 
-
+                //initialize message and response objects 
                 INFQueuingCOMEntities.clsQueuingInfo tMessage = new INFQueuingCOMEntities.clsQueuingInfo();
                 INFQueuingCOMEntities.clsQueuingInfo[] tResponses = new INFQueuingCOMEntities.clsQueuingInfo[0];
 
+                //add required parameters to message
                 INFQueuingCOMEntities.mdlGeneral.QueuingCommand tCommand = INFQueuingCOMEntities.mdlGeneral.QueuingCommand.WINDOW_NEXT;
                 object tParameter = tWindowData;
                 tMessage.Command = tCommand;
                 tMessage.Parameter = tParameter;
 
+                //send next action message to QS and return result
                 int tResult = mCommunicationManager.SendMessageToQS(ref tMessage, ref tResponses);
                 return tResult;
             }

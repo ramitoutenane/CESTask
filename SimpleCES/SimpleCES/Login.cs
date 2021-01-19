@@ -17,10 +17,15 @@ namespace SimpleCES
 
     public partial class Login : Form
     {
-        private static string cERROR_TITLE_GENERAL = "Unexpected error";
-        private static string cERROR_MESSAGE_GENERAL = "An unexpected error occurred";
+        private const string cERROR_TITLE_GENERAL = "Unexpected error";
+        private const string cERROR_MESSAGE_GENERAL = "An unexpected error occurred";
         private CounterClient mCounterClient;
+        //indicate wither login is successful or not
         internal bool mSuccessfulLogin;
+        /// <summary>
+        /// Login form object constructor
+        /// </summary>
+        /// <param name="pCounterClient"> Counter client object to be used in login</param>
         public Login(CounterClient pCounterClient)
         {
             try
@@ -35,11 +40,16 @@ namespace SimpleCES
             }
 
         }
-
+        /// <summary>
+        /// Login button click event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             try
             {
+                //get date from text boxes and check validity
                 string pLoginName = textBoxLoginName.Text;
                 string pPassword = textBoxPassword.Text;
 
@@ -54,13 +64,16 @@ namespace SimpleCES
                     return;
                 }
 
+                //try to perform login
                 if (mCounterClient.Login(pLoginName, pPassword) == 0)
                 {
+                    //if successful result returned change login status and submit dialog
                     mSuccessfulLogin = true;
                     DialogResult = DialogResult.OK;
                 }
                 else
                 {
+                    //if login failed, show appropriate message
                     ShowErrorMessage(ConstantResources.cERROR_TITLE_LOGIN_FAILED, ConstantResources.cERROR_MESSAGE_LOGIN_FAILED);
                 }
 
@@ -71,7 +84,11 @@ namespace SimpleCES
                 ShowErrorMessage(ConstantResources.cERROR_TITLE_GENERAL, ConstantResources.cERROR_MESSAGE_GENERAL);
             }
         }
-
+        /// <summary>
+        /// Show error message dialog to user
+        /// </summary>
+        /// <param name="pTitle">Error dialog caption title</param>
+        /// <param name="pMessage">Error dialog message content</param>
         private void ShowErrorMessage(string pTitle, string pMessage)
         {
             try

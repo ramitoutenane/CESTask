@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SimpleCES
 {
+    /// <summary>
+    /// Constant and static values to be used across module classes
+    /// </summary>
     public static class ConstantResources
     {
         public const string cEMPLOYEE_STATUS_NOT_READY = "Not Ready To Serve";
