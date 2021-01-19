@@ -38,7 +38,7 @@ namespace QSClient
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
             }
 
         }
@@ -46,14 +46,14 @@ namespace QSClient
         /// connect to QS
         /// </summary>
         /// <returns>QS connection status</returns>
-        public mdlGeneral.eConnectionStatus Connect()
+        public INFQSCommunication.mdlGeneral.eConnectionStatus Connect()
         {
             try
             {
-                if (!mdlGeneral.RegisterRemotingChannel())
+                if (!INFQSCommunication.mdlGeneral.RegisterRemotingChannel())
                 {
-                    mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, ConstantResources.cERROR_CHANEL_REGISTER, new StackTrace(true).ToString());
-                    return mdlGeneral.eConnectionStatus.GeneralError;
+                    INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, mdlGeneral.cERROR_CHANEL_REGISTER, new StackTrace(true).ToString());
+                    return INFQSCommunication.mdlGeneral.eConnectionStatus.GeneralError;
                 }
 
                 //create communication manager and register events to it
@@ -65,19 +65,19 @@ namespace QSClient
                     mCommunicationManager.MessageReceived += HandleQSMessageReceivedEvent;
                 }
                 //connect to QS
-                mdlGeneral.eConnectionStatus tConnectionStatus = mCommunicationManager.Connect(mServerIpAddress);
-                if (tConnectionStatus != mdlGeneral.eConnectionStatus.Success)
+                INFQSCommunication.mdlGeneral.eConnectionStatus tConnectionStatus = mCommunicationManager.Connect(mServerIpAddress);
+                if (tConnectionStatus != INFQSCommunication.mdlGeneral.eConnectionStatus.Success)
                 {
                     return tConnectionStatus;
                 }
                 //invoke connected event
                 HandleQSConnectedEvent();
-                return mdlGeneral.eConnectionStatus.Success;
+                return INFQSCommunication.mdlGeneral.eConnectionStatus.Success;
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                return mdlGeneral.eConnectionStatus.GeneralError;
+                INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                return INFQSCommunication.mdlGeneral.eConnectionStatus.GeneralError;
             }
 
         }
@@ -97,7 +97,7 @@ namespace QSClient
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
             }
         }
         /// <summary>
@@ -113,16 +113,16 @@ namespace QSClient
             {
                 if (mCommunicationManager == null)
                 {
-                    mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, ConstantResources.cERROR_NULL_QS_CLIENT, new StackTrace(true).ToString());
-                    return mdlGeneral.cERROR;
+                    INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, mdlGeneral.cERROR_NULL_QS_CLIENT, new StackTrace(true).ToString());
+                    return INFQSCommunication.mdlGeneral.cERROR;
                 }
                 //send message to QS using communication manager
                 return mCommunicationManager.Send(ref pMessage, ref pResponses);
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                return mdlGeneral.cERROR;
+                INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                return INFQSCommunication.mdlGeneral.cERROR;
             }
 
         }
@@ -142,11 +142,11 @@ namespace QSClient
                 {
                     MessageReceivedEvent(pMessage);
                 }
-                pResult = mdlGeneral.cSUCCESS;
+                pResult = INFQSCommunication.mdlGeneral.cSUCCESS;
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
             }
         }
         /// <summary>
@@ -164,7 +164,7 @@ namespace QSClient
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
             }
         }
         /// <summary>
@@ -182,7 +182,7 @@ namespace QSClient
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
             }
         }
         #endregion

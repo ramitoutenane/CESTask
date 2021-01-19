@@ -35,8 +35,8 @@ namespace SimpleCES
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                ShowErrorMessage(ConstantResources.cERROR_TITLE_GENERAL, ConstantResources.cERROR_MESSAGE_GENERAL);
+                INFQueuingCOMEntities.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                ShowErrorMessage(mdlGeneral.cERROR_TITLE_GENERAL, mdlGeneral.cERROR_MESSAGE_GENERAL);
             }
 
         }
@@ -55,12 +55,12 @@ namespace SimpleCES
 
                 if (string.IsNullOrWhiteSpace(pLoginName))
                 {
-                    ShowErrorMessage(ConstantResources.cERROR_TITLE_REQUIRED_LOGIN_NAME, ConstantResources.cERROR_MESSAGE_REQUIRED_LOGIN_NAME);
+                    ShowErrorMessage(mdlGeneral.cERROR_TITLE_REQUIRED_LOGIN_NAME, mdlGeneral.cERROR_MESSAGE_REQUIRED_LOGIN_NAME);
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(pPassword))
                 {
-                    ShowErrorMessage(ConstantResources.cERROR_TITLE_REQUIRED_PASSWORD, ConstantResources.cERROR_MESSAGE_REQUIRED_PASSWORD);
+                    ShowErrorMessage(mdlGeneral.cERROR_TITLE_REQUIRED_PASSWORD, mdlGeneral.cERROR_MESSAGE_REQUIRED_PASSWORD);
                     return;
                 }
 
@@ -74,14 +74,14 @@ namespace SimpleCES
                 else
                 {
                     //if login failed, show appropriate message
-                    ShowErrorMessage(ConstantResources.cERROR_TITLE_LOGIN_FAILED, ConstantResources.cERROR_MESSAGE_LOGIN_FAILED);
+                    ShowErrorMessage(mdlGeneral.cERROR_TITLE_LOGIN_FAILED, mdlGeneral.cERROR_MESSAGE_LOGIN_FAILED);
                 }
 
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                ShowErrorMessage(ConstantResources.cERROR_TITLE_GENERAL, ConstantResources.cERROR_MESSAGE_GENERAL);
+                INFQueuingCOMEntities.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                ShowErrorMessage(mdlGeneral.cERROR_TITLE_GENERAL, mdlGeneral.cERROR_MESSAGE_GENERAL);
             }
         }
         /// <summary>
@@ -97,7 +97,7 @@ namespace SimpleCES
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                INFQueuingCOMEntities.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
                 MessageBox.Show(cERROR_MESSAGE_GENERAL, cERROR_TITLE_GENERAL, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

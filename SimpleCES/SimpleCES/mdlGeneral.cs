@@ -9,7 +9,7 @@ namespace SimpleCES
     /// <summary>
     /// Constant and static values to be used across module classes
     /// </summary>
-    public static class ConstantResources
+    public static class mdlGeneral
     {
         public const string cEMPLOYEE_STATUS_NOT_READY = "Not Ready To Serve";
         public const string cEMPLOYEE_STATUS_READY = "Ready To Serve";

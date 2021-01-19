@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommunicationProxy.cs" />
-    <Compile Include="ConstantResources.cs" />
+    <Compile Include="mdlGeneral.cs" />
     <Compile Include="CounterClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

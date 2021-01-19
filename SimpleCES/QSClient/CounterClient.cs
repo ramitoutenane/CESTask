@@ -68,7 +68,7 @@ namespace QSClient
         {
             try
             {
-                mClientName = ConstantResources.cCLIENT_NAME_COUNTER_CLIENT;
+                mClientName = mdlGeneral.cCLIENT_NAME_COUNTER_CLIENT;
                 mServerIpAddress = pServerIpAddress;
                 mCounterId = pCounterId;
                 mConnectionStatus = false;
@@ -103,7 +103,7 @@ namespace QSClient
                 }
                 else
                 {
-                    INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, ConstantResources.cERROR_QS_CLIENT_DISCONNECTED, new StackTrace(true).ToString());
+                    INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, mdlGeneral.cERROR_QS_CLIENT_DISCONNECTED, new StackTrace(true).ToString());
                     return INFQSCommunication.mdlGeneral.cERROR;
                 }
 
@@ -155,7 +155,7 @@ namespace QSClient
                 //if Connection to QS failed
                 if (tConnectionStatus != INFQSCommunication.mdlGeneral.eConnectionStatus.Success)
                 {
-                    INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, ConstantResources.cERROR_QS_CONNECTION_FAILED + tConnectionStatus.ToString(), new StackTrace(true).ToString()); ;
+                    INFQSCommunication.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, mdlGeneral.cERROR_QS_CONNECTION_FAILED + tConnectionStatus.ToString(), new StackTrace(true).ToString()); ;
                 }
             }
             catch (Exception pError)

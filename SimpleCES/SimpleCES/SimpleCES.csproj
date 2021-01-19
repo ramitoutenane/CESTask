@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstantResources.cs" />
+    <Compile Include="mdlGeneral.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>

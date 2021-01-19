@@ -25,8 +25,8 @@ namespace SimpleCES
             {
                 InitializeComponent();
                 //get application settings from configuration file
-                string tBranchIP = ConfigurationManager.AppSettings[ConstantResources.cBRANCH_IP];
-                string tCounterId = ConfigurationManager.AppSettings[ConstantResources.cCOUNTER_ID];
+                string tBranchIP = ConfigurationManager.AppSettings[mdlGeneral.cBRANCH_IP];
+                string tCounterId = ConfigurationManager.AppSettings[mdlGeneral.cCOUNTER_ID];
 
                 mLoggedIn = false;
                 mCounterClient = new CounterClient(tBranchIP, tCounterId);
@@ -34,15 +34,15 @@ namespace SimpleCES
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                ShowErrorMessage(ConstantResources.cERROR_TITLE_GENERAL, ConstantResources.cERROR_MESSAGE_GENERAL);
+                INFQueuingCOMEntities.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                ShowErrorMessage(mdlGeneral.cERROR_TITLE_GENERAL, mdlGeneral.cERROR_MESSAGE_GENERAL);
             }
         }
         private void Main_Load(object sender, EventArgs e)
         {
             try
             {
-                labelStatus.Text = ConstantResources.cEMPLOYEE_STATUS_NOT_READY;
+                labelStatus.Text = mdlGeneral.cEMPLOYEE_STATUS_NOT_READY;
                 //show login form dialog to user
                 if (!mLoggedIn)
                     using (Login tLogin = new Login(mCounterClient))
@@ -57,8 +57,8 @@ namespace SimpleCES
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                ShowErrorMessage(ConstantResources.cERROR_TITLE_GENERAL, ConstantResources.cERROR_MESSAGE_GENERAL);
+                INFQueuingCOMEntities.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                ShowErrorMessage(mdlGeneral.cERROR_TITLE_GENERAL, mdlGeneral.cERROR_MESSAGE_GENERAL);
             }
 
         }
@@ -76,17 +76,17 @@ namespace SimpleCES
                     StringBuilder tStatusTextBuilder = new StringBuilder();
                     switch (tWindow.State)
                     {
-                        case mdlGeneral.EmployeeActiontypes.NotReady:
-                            tStatusTextBuilder.AppendLine(ConstantResources.cEMPLOYEE_STATUS_NOT_READY);
+                        case INFQueuingCOMEntities.mdlGeneral.EmployeeActiontypes.NotReady:
+                            tStatusTextBuilder.AppendLine(mdlGeneral.cEMPLOYEE_STATUS_NOT_READY);
                             break;
-                        case mdlGeneral.EmployeeActiontypes.Ready:
-                            tStatusTextBuilder.AppendLine(ConstantResources.cEMPLOYEE_STATUS_READY);
+                        case INFQueuingCOMEntities.mdlGeneral.EmployeeActiontypes.Ready:
+                            tStatusTextBuilder.AppendLine(mdlGeneral.cEMPLOYEE_STATUS_READY);
                             break;
-                        case mdlGeneral.EmployeeActiontypes.Serving:
-                            tStatusTextBuilder.AppendLine(ConstantResources.cEMPLOYEE_STATUS_SERVING);
+                        case INFQueuingCOMEntities.mdlGeneral.EmployeeActiontypes.Serving:
+                            tStatusTextBuilder.AppendLine(mdlGeneral.cEMPLOYEE_STATUS_SERVING);
                             if (tWindow.CustomerTransaction != null)
                             {
-                                tStatusTextBuilder.AppendLine(ConstantResources.cTICKET_NUMBER);
+                                tStatusTextBuilder.AppendLine(mdlGeneral.cTICKET_NUMBER);
                                 tStatusTextBuilder.AppendLine(tWindow.CustomerTransaction.DisplayTicketNumber);
                             }
                             break;
@@ -97,8 +97,8 @@ namespace SimpleCES
             catch (Exception pError)
             {
 
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                ShowErrorMessage(ConstantResources.cERROR_TITLE_GENERAL, ConstantResources.cERROR_MESSAGE_GENERAL);
+                INFQueuingCOMEntities.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                ShowErrorMessage(mdlGeneral.cERROR_TITLE_GENERAL, mdlGeneral.cERROR_MESSAGE_GENERAL);
             }
         }
         /// <summary>
@@ -112,8 +112,8 @@ namespace SimpleCES
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                ShowErrorMessage(ConstantResources.cERROR_TITLE_GENERAL, ConstantResources.cERROR_MESSAGE_GENERAL);
+                INFQueuingCOMEntities.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                ShowErrorMessage(mdlGeneral.cERROR_TITLE_GENERAL, mdlGeneral.cERROR_MESSAGE_GENERAL);
             }
         }
         /// <summary>
@@ -138,8 +138,8 @@ namespace SimpleCES
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
-                ShowErrorMessage(ConstantResources.cERROR_TITLE_GENERAL, ConstantResources.cERROR_MESSAGE_GENERAL);
+                INFQueuingCOMEntities.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                ShowErrorMessage(mdlGeneral.cERROR_TITLE_GENERAL, mdlGeneral.cERROR_MESSAGE_GENERAL);
             }
         }
         /// <summary>
@@ -155,7 +155,7 @@ namespace SimpleCES
             }
             catch (Exception pError)
             {
-                mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
+                INFQueuingCOMEntities.mdlGeneral.LogEvent(mdlEnumerations.INFEventTypes.Error, GetType().ToString(), MethodBase.GetCurrentMethod().Name, pError.Message, pError.StackTrace);
                 MessageBox.Show(cERROR_MESSAGE_GENERAL, cERROR_TITLE_GENERAL, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
